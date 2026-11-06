@@ -33,4 +33,6 @@ Les niveaux, séances, commentaires et cycle sont sauvegardés dans le navigateu
 - La dose active choisit automatiquement le niveau le plus avancé renseigné pour l’exercice.
 - Chaque ligne de l’historique peut être supprimée ; une séance supprimée est retirée du compteur et de la rotation quand ses détails sont disponibles.
 - La semaine se réinitialise automatiquement le lundi : le compteur hebdomadaire et les jokers repartent à zéro, tandis que l’historique global est conservé.
+- Un seul Joker et un seul Sport libre peuvent être enregistrés par jour.
+- L’ordre des séances Mixte avance à la validation : M1 → M2 → M3 → M4, puis revient à M1. Tirer à nouveau une séance avant de la valider ne consomme pas l’étape suivante.
 - Apple Santé/Fitness n’est pas connecté automatiquement dans cette PWA ; utiliser Apple Watch en « Entraînement fonctionnel » pour l’enregistrement Apple, puis valider la séance dans Défi 60.
