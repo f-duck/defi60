@@ -26,14 +26,15 @@
         <div class="progress-card">
           <div class="section-heading"><div><span class="eyebrow">Objectif</span><h2>Défi 60</h2></div><strong id="progressText">0 / 60</strong></div>
           <div class="progress-track"><span id="progressBar"></span></div>
-          <div class="progress-meta"><span id="weeklyText">0 / 5 cette semaine</span><span id="streakText">🔥 0 série</span></div>
+          <div class="progress-meta"><span id="weeklyText">0 / 4 séances cette semaine</span><span id="streakText">🔥 0 série</span></div>
+          <p class="week-result" id="weekResult"></p>
         </div>
         <div class="quick-grid">
           <button class="quick-action primary" data-action="draw"><span>🎲</span><strong>Tirer une séance</strong><small>Mixte 1 · 2 · 3 · 4</small></button>
           <button class="quick-action" data-action="sport"><span>🏀</span><strong>Sport libre</strong><small>Compter la séance</small></button>
           <button class="quick-action" data-action="joker"><span>🃏</span><strong>Utiliser un joker</strong><small>Ne compte pas</small></button>
         </div>
-        <div class="section-heading compact"><h2>Cette semaine</h2><button class="text-btn" data-nav="historique">Voir l’historique</button></div>
+        <div class="section-heading compact"><h2>Cette semaine</h2><div class="section-actions"><button class="text-btn" data-nav="historique">Historique</button><button class="btn ghost small" id="nextWeekBtn">Semaine suivante</button></div></div>
         <div class="week-strip" id="weekStrip"></div>
         <p class="day-hint" id="dayHint">Jour sélectionné : aujourd’hui · clique sur un jour pour le changer</p>
         <div class="tip-card"><span>💡</span><div><strong>La sélection active est séparée du cycle</strong><p>Tu peux régénérer un tirage sans modifier ce qui a déjà été fait.</p></div></div>
