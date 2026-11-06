@@ -31,4 +31,6 @@ Les niveaux, séances, commentaires et cycle sont sauvegardés dans le navigateu
 - Le jour actif est sélectionnable dans la semaine ; Sport libre et Joker affichent leur icône sur le jour choisi.
 - Cliquer sur la photo d’un exercice ouvre un exemple d’exécution et rappelle la dose active.
 - La dose active choisit automatiquement le niveau le plus avancé renseigné pour l’exercice.
+- Chaque ligne de l’historique peut être supprimée ; une séance supprimée est retirée du compteur et de la rotation quand ses détails sont disponibles.
+- La semaine se réinitialise automatiquement le lundi : le compteur hebdomadaire et les jokers repartent à zéro, tandis que l’historique global est conservé.
 - Apple Santé/Fitness n’est pas connecté automatiquement dans cette PWA ; utiliser Apple Watch en « Entraînement fonctionnel » pour l’enregistrement Apple, puis valider la séance dans Défi 60.
