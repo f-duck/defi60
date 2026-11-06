@@ -28,3 +28,7 @@ Les niveaux, séances, commentaires et cycle sont sauvegardés dans le navigateu
 - Mixte 1/3 : 3 familles ; Mixte 2/4 : les 3 restantes.
 - 2 exercices par famille, sans répétition avant la fin du cycle.
 - Formats : EMOM 12, EMOM 18, AMRAP 15, Ladder 10→1, Pyramide 5-10-15-20-15-10-5 sur exercices étoilés, Challenge 6 × 1 min × 2 avec 1 min de pause.
+- Le jour actif est sélectionnable dans la semaine ; Sport libre et Joker affichent leur icône sur le jour choisi.
+- Cliquer sur la photo d’un exercice ouvre un exemple d’exécution et rappelle la dose active.
+- La dose active choisit automatiquement le niveau le plus avancé renseigné pour l’exercice.
+- Apple Santé/Fitness n’est pas connecté automatiquement dans cette PWA ; utiliser Apple Watch en « Entraînement fonctionnel » pour l’enregistrement Apple, puis valider la séance dans Défi 60.
