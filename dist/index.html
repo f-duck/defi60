@@ -35,6 +35,7 @@
         </div>
         <div class="section-heading compact"><h2>Cette semaine</h2><button class="text-btn" data-nav="historique">Voir l’historique</button></div>
         <div class="week-strip" id="weekStrip"></div>
+        <p class="day-hint" id="dayHint">Jour sélectionné : aujourd’hui · clique sur un jour pour le changer</p>
         <div class="tip-card"><span>💡</span><div><strong>La sélection active est séparée du cycle</strong><p>Tu peux régénérer un tirage sans modifier ce qui a déjà été fait.</p></div></div>
       </section>
 
@@ -65,6 +66,7 @@
 
     <nav class="bottom-nav"><button class="nav-item active" data-nav="accueil"><span>⌂</span>Accueil</button><button class="nav-item" data-nav="seance"><span>⚡</span>Séance</button><button class="nav-item" data-nav="progression"><span>↗</span>Progression</button><button class="nav-item" data-nav="historique"><span>☷</span>Historique</button></nav>
   </div>
+  <div class="modal" id="exerciseModal" hidden><div class="modal-backdrop" data-close-modal></div><div class="modal-card"><button class="modal-close" data-close-modal aria-label="Fermer">×</button><span class="eyebrow">Exemple d’exécution</span><h2 id="modalTitle">Exercice</h2><img id="modalImage" alt="Exemple de l’exercice"><p id="modalText"></p><ul id="modalSteps"></ul></div></div>
   <div class="toast" id="toast"></div>
   <script src="app.js"></script>
 </body>
