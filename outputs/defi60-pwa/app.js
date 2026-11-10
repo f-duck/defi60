@@ -9,10 +9,15 @@ const families=[
 const formats=[{name:'EMOM 12',desc:'12 min · 2 tours · 6 exercices dans l’ordre',seconds:720},{name:'EMOM 18',desc:'18 min · 3 tours · 6 exercices dans l’ordre',seconds:1080},{name:'AMRAP 15',desc:'15 min · refaire les 6 exercices au maximum',seconds:900},{name:'Ladder 10 → 1',desc:'1 exercice ⭐ · 10-9-8…1',seconds:600,star:true},{name:'Pyramide',desc:'1 exercice ⭐ · 5-10-15-20-15-10-5',seconds:420,star:true},{name:'Challenge',desc:'6 exercices × 1 min × 2 · pause 1 min',seconds:780}];
 const photoSeeds=['photo-1517836357463-d25dfeac3438','photo-1583454110551-21f2fa2afe61','photo-1534438327276-14e5300c3a48','photo-1546483875-ad9014c88eba','photo-1517964603305-11c0f6f66012','photo-1554284126-aa88f22d8b74'];
 const defaults={count:0,history:[],active:null,used:{},usedFormats:[],level:1,doses:{},weekJokers:0,streak:0,selectedDay:(new Date().getDay()+6)%7,weekKey:'',weekStart:'',nextMixte:1};
+const WIDGET_SYNC_URL='https://defi60-widget.yann-negre.workers.dev/v1/48eec4ad78274655fecbf5cac8ad9b2743292e4980de6655';
 let state=load(); let currentFamily=0; let timer={remaining:0,total:0,running:false,id:null};
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 function load(){try{return {...defaults,...JSON.parse(localStorage.getItem('defi60')||'{}')}}catch{return {...defaults}}}
-function save(){localStorage.setItem('defi60',JSON.stringify(state)); renderAll()}
+function syncState(){return {count:state.count||0,history:state.history||[],active:state.active||null,used:state.used||{},usedFormats:state.usedFormats||[],level:state.level||1,doses:state.doses||{},weekJokers:state.weekJokers||0,streak:state.streak||0,selectedDay:state.selectedDay,weekKey:state.weekKey||'',weekStart:state.weekStart||'',nextMixte:state.nextMixte||1,familySets:state.familySets||{}}}
+function widgetPayload(){ensureCurrentWeek();const current=weekKey(),activities=weekActivities();return {weekStart:current,weeklyCount:weekItems().length,weekSuccess:weekItems().length>=4,nextMixte:state.nextMixte||1,total:state.count||0,days:[0,1,2,3,4,5,6].map(day=>{const acts=activities.filter(h=>h.day===day);return {day,mixte:acts.filter(h=>String(h.type).startsWith('MIXTE')).map(h=>h.type.replace('MIXTE ','M')).join(' '),sport:acts.some(h=>h.type==='Sport libre'),joker:acts.some(h=>h.type==='Joker'),done:acts.some(h=>h.counted)}}),state:syncState(),updatedAt:new Date().toISOString()}}
+function syncWidget(){if(!WIDGET_SYNC_URL)return;fetch(WIDGET_SYNC_URL,{method:'PUT',headers:{'content-type':'application/json'},body:JSON.stringify(widgetPayload())}).catch(()=>{})}
+async function restoreWidgetState(){try{if((state.history&&state.history.length)||state.count)return false;const response=await fetch(WIDGET_SYNC_URL);if(!response.ok)return false;const remote=await response.json();if(!remote.state||!Array.isArray(remote.state.history))return false;state={...defaults,...remote.state};ensureCurrentWeek();localStorage.setItem('defi60',JSON.stringify(state));renderAll();return true}catch{return false}}
+function save(){localStorage.setItem('defi60',JSON.stringify(state));syncWidget();renderAll()}
 function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2400)}
 function nav(view){$$('.view').forEach(v=>v.classList.toggle('active',v.dataset.view===view));$$('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.nav===view)); if(view==='accueil')renderHome();if(view==='seance')renderSession();if(view==='progression')renderDoses();if(view==='historique')renderHistory()}
 $$('[data-nav]').forEach(el=>el.addEventListener('click',()=>nav(el.dataset.nav)));
@@ -100,3 +105,4 @@ function renderHistory(){const counted=state.history.filter(h=>h.counted);$('#st
 function renderAll(){renderHome();if($('#dosePanel'))renderDoses();if($('#historyList'))renderHistory();if(state.active)renderSession();}
 $('#nextWeekBtn').onclick=()=>{if(confirm('Passer à la semaine suivante et remettre la rotation à zéro ?'))nextWeek()};
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw-v2.js').catch(()=>{});setupTimer();renderAll();
+restoreWidgetState().finally(()=>syncWidget());

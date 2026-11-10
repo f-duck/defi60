@@ -31,8 +31,8 @@ try {
   mixte.textColor = new Color('#FBBF24')
 
   widget.addSpacer(8)
-  text(data.weekSuccess ? 'Semaine réussie' : `${count} / 4 séances`, Font.boldSystemFont(21), data.weekSuccess ? '#34D399' : '#F9FAFB')
-  const sub = text(data.weekSuccess ? 'Objectif atteint · continue comme ça' : 'Objectif hebdomadaire', Font.systemFont(11), '#9CA3AF')
+  text(`${count} / 5 séances`, Font.boldSystemFont(21), data.weekSuccess ? '#34D399' : '#F9FAFB')
+  const sub = text(data.weekSuccess ? 'Semaine validée · objectif atteint' : '4 séances suffisent pour valider', Font.systemFont(11), '#9CA3AF')
   sub.minimumScaleFactor = 0.7
   widget.addSpacer(10)
 
