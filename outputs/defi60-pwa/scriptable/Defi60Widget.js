@@ -7,6 +7,7 @@ const widget = new ListWidget()
 widget.backgroundColor = new Color('#111827')
 widget.setPadding(14, 16, 14, 16)
 widget.url = APP_URL
+widget.refreshAfterDate = new Date(Date.now() + 5 * 60 * 1000)
 
 function text(value, font, color = '#F9FAFB') {
   const item = widget.addText(value)
@@ -16,7 +17,7 @@ function text(value, font, color = '#F9FAFB') {
 }
 
 try {
-  const data = await new Request(WIDGET_URL).loadJSON()
+  const data = await new Request(`${WIDGET_URL}?t=${Date.now()}`).loadJSON()
   const days = Array.isArray(data.days) ? data.days : []
   const count = Number(data.weeklyCount || 0)
 
