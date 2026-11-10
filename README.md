@@ -22,7 +22,7 @@ Les niveaux, séances, commentaires et cycle sont sauvegardés dans le navigateu
 
 ## Règles intégrées
 
-- Défi 60 du 28/09/2026 au 31/12/2026, 4 Mixte + 1 sport libre par semaine.
+- Défi 60 du 28/09/2026 au 31/12/2026, 4 Mixte + 1 sport libre par semaine, soit 5 séances à valider.
 - 2 jokers maximum par semaine, non comptés.
 - 6 familles de 6 exercices.
 - Mixte 1/3 : 3 familles ; Mixte 2/4 : les 3 restantes.

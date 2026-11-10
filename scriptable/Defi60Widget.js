@@ -34,14 +34,20 @@ try {
 
   widget.addSpacer(8)
   text(`${count} / 5 séances`, Font.boldSystemFont(21), data.weekSuccess ? '#34D399' : '#F9FAFB')
-  const sub = text(small ? (data.weekSuccess ? 'Validée dès 4' : '4 séances = validée') : (data.weekSuccess ? 'Semaine validée · objectif atteint' : '4 séances suffisent pour valider'), Font.systemFont(11), '#9CA3AF')
+  const sub = text(small ? (data.weekSuccess ? 'Semaine validée' : '5 séances = validée') : (data.weekSuccess ? 'Semaine validée · objectif atteint' : '5 séances pour valider'), Font.systemFont(11), '#9CA3AF')
   sub.minimumScaleFactor = 0.7
   widget.addSpacer(10)
 
-  if (!small) {
+  const labels = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
+  const activityIcon = day => day.mixte ? '🔥' : day.sport ? '🏀' : day.joker ? '🃏' : '·'
+  if (small) {
+    const compactDays = days.map((day, index) => `${labels[index]}${activityIcon(day)}`).join('  ')
+    const compact = text(compactDays, Font.systemFont(9), '#D1D5DB')
+    compact.minimumScaleFactor = 0.45
+    compact.lineLimit = 1
+  } else {
     const row = widget.addStack()
     row.spacing = 1
-    const labels = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
     days.forEach((day, index) => {
       const cell = row.addStack()
       cell.size = new Size(31, 38)
@@ -50,7 +56,7 @@ try {
       const label = cell.addText(labels[index])
       label.font = Font.mediumSystemFont(10)
       label.textColor = new Color('#9CA3AF')
-      const icon = day.mixte ? '🔥' : day.sport ? '🏀' : day.joker ? '🃏' : '·'
+      const icon = activityIcon(day)
       const mark = cell.addText(icon)
       mark.font = Font.systemFont(15)
       mark.textColor = day.mixte || day.sport ? Color.white() : new Color('#6B7280')
