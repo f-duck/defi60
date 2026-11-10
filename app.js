@@ -103,3 +103,4 @@ function renderHistory(){const counted=state.history.filter(h=>h.counted);$('#st
 function renderAll(){renderHome();if($('#dosePanel'))renderDoses();if($('#historyList'))renderHistory();if(state.active)renderSession();}
 $('#nextWeekBtn').onclick=()=>{if(confirm('Passer à la semaine suivante et remettre la rotation à zéro ?'))nextWeek()};
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw-v2.js').catch(()=>{});setupTimer();renderAll();
+syncWidget();
