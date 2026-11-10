@@ -7,7 +7,8 @@ const widget = new ListWidget()
 widget.backgroundColor = new Color('#111827')
 widget.setPadding(14, 16, 14, 16)
 widget.url = APP_URL
-widget.refreshAfterDate = new Date(Date.now() + 5 * 60 * 1000)
+// iOS demandera une nouvelle exécution au plus tard dans environ 24 h.
+widget.refreshAfterDate = new Date(Date.now() + 24 * 60 * 60 * 1000)
 
 function text(value, font, color = '#F9FAFB') {
   const item = widget.addText(value)
