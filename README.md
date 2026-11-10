@@ -36,3 +36,14 @@ Les niveaux, séances, commentaires et cycle sont sauvegardés dans le navigateu
 - Un seul Joker et un seul Sport libre peuvent être enregistrés par jour.
 - L’ordre des séances Mixte avance à la validation : M1 → M2 → M3 → M4, puis revient à M1. Tirer à nouveau une séance avant de la valider ne consomme pas l’étape suivante.
 - Apple Santé/Fitness n’est pas connecté automatiquement dans cette PWA ; utiliser Apple Watch en « Entraînement fonctionnel » pour l’enregistrement Apple, puis valider la séance dans Défi 60.
+
+## Widget iPhone avec Scriptable
+
+Le script [scriptable/Defi60Widget.js](scriptable/Defi60Widget.js) affiche la progression de la semaine, les jours réalisés et la prochaine séance Mixte. L’application synchronise uniquement ce résumé (pas l’historique complet) vers un petit service privé utilisé par le widget.
+
+1. Ouvrir le fichier du script depuis GitHub ou le télécharger.
+2. Dans Scriptable, créer un nouveau script et coller son contenu.
+3. Ajouter un widget Scriptable à l’écran d’accueil, choisir ce script et sélectionner la taille moyenne.
+4. Taper le widget ouvre directement l’application Défi 60.
+
+Le widget se met à jour quand l’application est enregistrée ou modifiée ; iOS décide ensuite du moment exact où il recharge le widget.

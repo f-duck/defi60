@@ -9,10 +9,13 @@ const families=[
 const formats=[{name:'EMOM 12',desc:'12 min · 2 tours · 6 exercices dans l’ordre',seconds:720},{name:'EMOM 18',desc:'18 min · 3 tours · 6 exercices dans l’ordre',seconds:1080},{name:'AMRAP 15',desc:'15 min · refaire les 6 exercices au maximum',seconds:900},{name:'Ladder 10 → 1',desc:'1 exercice ⭐ · 10-9-8…1',seconds:600,star:true},{name:'Pyramide',desc:'1 exercice ⭐ · 5-10-15-20-15-10-5',seconds:420,star:true},{name:'Challenge',desc:'6 exercices × 1 min × 2 · pause 1 min',seconds:780}];
 const photoSeeds=['photo-1517836357463-d25dfeac3438','photo-1583454110551-21f2fa2afe61','photo-1534438327276-14e5300c3a48','photo-1546483875-ad9014c88eba','photo-1517964603305-11c0f6f66012','photo-1554284126-aa88f22d8b74'];
 const defaults={count:0,history:[],active:null,used:{},usedFormats:[],level:1,doses:{},weekJokers:0,streak:0,selectedDay:(new Date().getDay()+6)%7,weekKey:'',weekStart:'',nextMixte:1};
+const WIDGET_SYNC_URL='https://defi60-widget.yann-negre.workers.dev/v1/48eec4ad78274655fecbf5cac8ad9b2743292e4980de6655';
 let state=load(); let currentFamily=0; let timer={remaining:0,total:0,running:false,id:null};
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 function load(){try{return {...defaults,...JSON.parse(localStorage.getItem('defi60')||'{}')}}catch{return {...defaults}}}
-function save(){localStorage.setItem('defi60',JSON.stringify(state)); renderAll()}
+function widgetPayload(){ensureCurrentWeek();const current=weekKey(),activities=weekActivities();return {weekStart:current,weeklyCount:weekItems().length,weekSuccess:weekItems().length>=4,nextMixte:state.nextMixte||1,total:state.count||0,days:[0,1,2,3,4,5,6].map(day=>{const acts=activities.filter(h=>h.day===day);return {day,mixte:acts.filter(h=>String(h.type).startsWith('MIXTE')).map(h=>h.type.replace('MIXTE ','M')).join(' '),sport:acts.some(h=>h.type==='Sport libre'),joker:acts.some(h=>h.type==='Joker'),done:acts.some(h=>h.counted)}}),updatedAt:new Date().toISOString()}}
+function syncWidget(){if(!WIDGET_SYNC_URL)return;fetch(WIDGET_SYNC_URL,{method:'PUT',headers:{'content-type':'application/json'},body:JSON.stringify(widgetPayload())}).catch(()=>{})}
+function save(){localStorage.setItem('defi60',JSON.stringify(state));syncWidget();renderAll()}
 function toast(msg){const el=$('#toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2400)}
 function nav(view){$$('.view').forEach(v=>v.classList.toggle('active',v.dataset.view===view));$$('.nav-item').forEach(n=>n.classList.toggle('active',n.dataset.nav===view)); if(view==='accueil')renderHome();if(view==='seance')renderSession();if(view==='progression')renderDoses();if(view==='historique')renderHistory()}
 $$('[data-nav]').forEach(el=>el.addEventListener('click',()=>nav(el.dataset.nav)));
