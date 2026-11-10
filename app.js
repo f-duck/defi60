@@ -23,7 +23,7 @@ function nav(view){$$('.view').forEach(v=>v.classList.toggle('active',v.dataset.
 $$('[data-nav]').forEach(el=>el.addEventListener('click',()=>nav(el.dataset.nav)));
 function calendarWeekKey(d=new Date()){const x=new Date(d);const day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);return x.toISOString().slice(0,10)}
 function weekKey(){return state.weekStart||calendarWeekKey()}
-function ensureCurrentWeek(){const natural=calendarWeekKey();if(!state.weekStart)state.weekStart=state.weekKey||natural;if(natural>state.weekStart){state.weekStart=natural;state.weekJokers=0;state.used={};state.usedFormats=[];state.familySets={};state.nextMixte=1;state.active=null}state.weekKey=state.weekStart;localStorage.setItem('defi60',JSON.stringify(state))}
+function ensureCurrentWeek(){const natural=calendarWeekKey();if(!state.weekStart)state.weekStart=state.weekKey||natural;if(natural>state.weekStart){state.weekStart=natural;state.weekJokers=0;state.used={};state.usedFormats=[];state.familySets={};state.nextMixte=1;state.active=null}state.weekKey=state.weekStart;state.weekJokers=state.history.filter(h=>h.week===state.weekStart&&h.type==='Joker').length;localStorage.setItem('defi60',JSON.stringify(state))}
 function weekItems(){ensureCurrentWeek();return state.history.filter(h=>h.week===weekKey()&&h.counted)}
 function weekActivities(){ensureCurrentWeek();return state.history.filter(h=>h.week===weekKey())}
 function renderHome(){const count=state.count||0, pct=Math.min(100,count/60*100);$('#progressText').textContent=`${count} / 60`;$('#progressBar').style.width=pct+'%';$('#weeklyText').textContent=`${weekItems().length} / 5 cette semaine`;$('#streakText').textContent=`🔥 ${state.streak||0} série`;
