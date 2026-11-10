@@ -20,6 +20,7 @@ try {
   const data = await new Request(`${WIDGET_URL}?t=${Date.now()}`).loadJSON()
   const days = Array.isArray(data.days) ? data.days : []
   const count = Number(data.weeklyCount || 0)
+  const small = config.widgetFamily === 'small'
 
   const heading = widget.addStack()
   heading.centerAlignContent()
@@ -33,28 +34,30 @@ try {
 
   widget.addSpacer(8)
   text(`${count} / 5 séances`, Font.boldSystemFont(21), data.weekSuccess ? '#34D399' : '#F9FAFB')
-  const sub = text(data.weekSuccess ? 'Semaine validée · objectif atteint' : '4 séances suffisent pour valider', Font.systemFont(11), '#9CA3AF')
+  const sub = text(small ? (data.weekSuccess ? 'Validée dès 4' : '4 séances = validée') : (data.weekSuccess ? 'Semaine validée · objectif atteint' : '4 séances suffisent pour valider'), Font.systemFont(11), '#9CA3AF')
   sub.minimumScaleFactor = 0.7
   widget.addSpacer(10)
 
-  const row = widget.addStack()
-  row.spacing = 1
-  const labels = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
-  days.forEach((day, index) => {
-    const cell = row.addStack()
-    cell.size = new Size(31, 38)
-    cell.layoutVertically()
-    cell.centerAlignContent()
-    const label = cell.addText(labels[index])
-    label.font = Font.mediumSystemFont(10)
-    label.textColor = new Color('#9CA3AF')
-    const icon = day.mixte ? '🔥' : day.sport ? '🏀' : day.joker ? '🃏' : '·'
-    const mark = cell.addText(icon)
-    mark.font = Font.systemFont(15)
-    mark.textColor = day.mixte || day.sport ? Color.white() : new Color('#6B7280')
-    mark.minimumScaleFactor = 0.5
-    mark.lineLimit = 1
-  })
+  if (!small) {
+    const row = widget.addStack()
+    row.spacing = 1
+    const labels = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
+    days.forEach((day, index) => {
+      const cell = row.addStack()
+      cell.size = new Size(31, 38)
+      cell.layoutVertically()
+      cell.centerAlignContent()
+      const label = cell.addText(labels[index])
+      label.font = Font.mediumSystemFont(10)
+      label.textColor = new Color('#9CA3AF')
+      const icon = day.mixte ? '🔥' : day.sport ? '🏀' : day.joker ? '🃏' : '·'
+      const mark = cell.addText(icon)
+      mark.font = Font.systemFont(15)
+      mark.textColor = day.mixte || day.sport ? Color.white() : new Color('#6B7280')
+      mark.minimumScaleFactor = 0.5
+      mark.lineLimit = 1
+    })
+  }
 } catch (error) {
   text('🔥  Défi 60', Font.boldSystemFont(16))
   widget.addSpacer(8)
