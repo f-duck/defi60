@@ -41,10 +41,26 @@ try {
   const labels = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
   const activityIcon = day => day.mixte ? '🔥' : day.sport ? '🏀' : day.joker ? '🃏' : '·'
   if (small) {
-    const compactDays = days.map((day, index) => `${labels[index]}${activityIcon(day)}`).join('  ')
-    const compact = text(compactDays, Font.systemFont(9), '#D1D5DB')
-    compact.minimumScaleFactor = 0.45
-    compact.lineLimit = 1
+    const labelRow = widget.addStack()
+    const iconRow = widget.addStack()
+    labelRow.spacing = 1
+    iconRow.spacing = 1
+    days.forEach((day, index) => {
+      const label = labelRow.addText(labels[index])
+      label.font = Font.mediumSystemFont(9)
+      label.textColor = new Color('#9CA3AF')
+      label.minimumScaleFactor = 0.5
+      label.lineLimit = 1
+      const icon = iconRow.addText(activityIcon(day))
+      icon.font = Font.systemFont(11)
+      icon.textColor = day.mixte || day.sport ? Color.white() : new Color('#6B7280')
+      icon.minimumScaleFactor = 0.5
+      icon.lineLimit = 1
+      if (index < days.length - 1) {
+        labelRow.addSpacer()
+        iconRow.addSpacer()
+      }
+    })
   } else {
     const row = widget.addStack()
     row.spacing = 1
