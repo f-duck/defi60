@@ -47,11 +47,13 @@ try {
     iconRow.spacing = 1
     days.forEach((day, index) => {
       const label = labelRow.addText(labels[index])
+      label.size = new Size(18, 14)
       label.font = Font.mediumSystemFont(9)
       label.textColor = new Color('#9CA3AF')
       label.minimumScaleFactor = 0.5
       label.lineLimit = 1
       const icon = iconRow.addText(activityIcon(day))
+      icon.size = new Size(18, 16)
       icon.font = Font.systemFont(11)
       icon.textColor = day.mixte || day.sport ? Color.white() : new Color('#6B7280')
       icon.minimumScaleFactor = 0.5
