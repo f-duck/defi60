@@ -38,10 +38,11 @@ try {
   widget.addSpacer(10)
 
   const row = widget.addStack()
-  row.spacing = 4
+  row.spacing = 1
   const labels = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
   days.forEach((day, index) => {
     const cell = row.addStack()
+    cell.size = new Size(31, 38)
     cell.layoutVertically()
     cell.centerAlignContent()
     const label = cell.addText(labels[index])
@@ -51,7 +52,8 @@ try {
     const mark = cell.addText(icon)
     mark.font = Font.systemFont(15)
     mark.textColor = day.mixte || day.sport ? Color.white() : new Color('#6B7280')
-    if (index < days.length - 1) row.addSpacer()
+    mark.minimumScaleFactor = 0.5
+    mark.lineLimit = 1
   })
 } catch (error) {
   text('🔥  Défi 60', Font.boldSystemFont(16))
