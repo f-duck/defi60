@@ -35,7 +35,7 @@ try {
 
   widget.addSpacer(8)
   text(`${count} / 5 séances`, Font.boldSystemFont(21), data.weekSuccess ? '#34D399' : '#F9FAFB')
-  const sub = text(small ? (data.weekSuccess ? 'Semaine validée' : '5 séances = validée') : (data.weekSuccess ? 'Semaine validée · objectif atteint' : '5 séances pour valider'), Font.systemFont(11), '#9CA3AF')
+  const sub = text(small ? (data.weekSuccess ? 'Semaine validée' : '4 séances = validée') : (data.weekSuccess ? 'Semaine validée · objectif atteint' : '4 séances pour valider'), Font.systemFont(11), '#9CA3AF')
   sub.minimumScaleFactor = 0.7
   widget.addSpacer(10)
 
