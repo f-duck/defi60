@@ -1,7 +1,7 @@
 // Défi 60 — widget Scriptable
 // À coller dans une nouvelle script Scriptable, puis à choisir dans le widget.
 const WIDGET_URL = 'https://defi60-widget.yann-negre.workers.dev/v1/48eec4ad78274655fecbf5cac8ad9b2743292e4980de6655'
-const APP_URL = 'https://f-duck.github.io/defi60/?v=3d03b22'
+const APP_URL = 'https://f-duck.github.io/defi60/?v=4formats'
 
 const widget = new ListWidget()
 const smallWidget = config.widgetFamily === 'small'
@@ -35,13 +35,13 @@ try {
   mixte.textColor = new Color('#FBBF24')
 
   widget.addSpacer(8)
-  text(`${count} / 5 séances`, Font.boldSystemFont(21), data.weekSuccess ? '#34D399' : '#F9FAFB')
+  text(`${count} / 4 séances`, Font.boldSystemFont(21), data.weekSuccess ? '#34D399' : '#F9FAFB')
   const sub = text(small ? (data.weekSuccess ? 'Semaine validée' : '4 séances = validée') : (data.weekSuccess ? 'Semaine validée · objectif atteint' : '4 séances pour valider'), Font.systemFont(11), '#9CA3AF')
   sub.minimumScaleFactor = 0.7
   widget.addSpacer(10)
 
   const labels = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
-  const activityIcon = day => day.mixte ? '🔥' : day.sport ? '🏀' : day.joker ? '🃏' : '·'
+  const activitySymbol = day => day.mixte ? 'flame.fill' : day.sport ? 'basketball.fill' : day.joker ? 'rectangle.portrait.fill' : null
   const row = widget.addStack()
   row.spacing = 0
   days.forEach((day, index) => {
@@ -54,11 +54,18 @@ try {
     label.textColor = new Color('#9CA3AF')
     label.minimumScaleFactor = 0.5
     label.lineLimit = 1
-    const mark = cell.addText(activityIcon(day))
-    mark.font = Font.systemFont(small ? 10 : 15)
-    mark.textColor = day.mixte || day.sport ? Color.white() : new Color('#6B7280')
-    mark.minimumScaleFactor = 0.5
-    mark.lineLimit = 1
+    const symbolName = activitySymbol(day)
+    if (symbolName) {
+      const mark = cell.addImage(SFSymbol.named(symbolName).image)
+      mark.imageSize = new Size(small ? 10 : 15, small ? 10 : 15)
+      mark.tintColor = new Color('#F9FAFB')
+    } else {
+      const mark = cell.addText('·')
+      mark.font = Font.systemFont(small ? 10 : 15)
+      mark.textColor = new Color('#6B7280')
+      mark.minimumScaleFactor = 0.5
+      mark.lineLimit = 1
+    }
   })
 } catch (error) {
   text('🔥  Défi 60', Font.boldSystemFont(16))
