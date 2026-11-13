@@ -4,11 +4,12 @@ const WIDGET_URL = 'https://defi60-widget.yann-negre.workers.dev/v1/48eec4ad7827
 const APP_URL = 'https://f-duck.github.io/defi60/?v=3d03b22'
 
 const widget = new ListWidget()
+const smallWidget = config.widgetFamily === 'small'
 widget.backgroundColor = new Color('#111827')
-widget.setPadding(14, 16, 14, 16)
+widget.setPadding(smallWidget ? 8 : 14, smallWidget ? 10 : 16, smallWidget ? 8 : 14, smallWidget ? 10 : 16)
 widget.url = APP_URL
-// iOS demandera une nouvelle exécution au plus tard dans environ 24 h.
-widget.refreshAfterDate = new Date(Date.now() + 24 * 60 * 60 * 1000)
+// iOS peut retarder cette demande, mais elle évite de laisser le widget figé.
+widget.refreshAfterDate = new Date(Date.now() + 15 * 60 * 1000)
 
 function text(value, font, color = '#F9FAFB') {
   const item = widget.addText(value)
@@ -21,7 +22,7 @@ try {
   const data = await new Request(`${WIDGET_URL}?t=${Date.now()}`).loadJSON()
   const days = Array.isArray(data.days) ? data.days : []
   const count = Number(data.weeklyCount || 0)
-  const small = config.widgetFamily === 'small'
+  const small = smallWidget
 
   const heading = widget.addStack()
   heading.centerAlignContent()
@@ -41,48 +42,24 @@ try {
 
   const labels = ['L', 'M', 'M', 'J', 'V', 'S', 'D']
   const activityIcon = day => day.mixte ? '🔥' : day.sport ? '🏀' : day.joker ? '🃏' : '·'
-  if (small) {
-    const labelRow = widget.addStack()
-    const iconRow = widget.addStack()
-    labelRow.spacing = 1
-    iconRow.spacing = 1
-    days.forEach((day, index) => {
-      const label = labelRow.addText(labels[index])
-      label.size = new Size(18, 14)
-      label.font = Font.mediumSystemFont(9)
-      label.textColor = new Color('#9CA3AF')
-      label.minimumScaleFactor = 0.5
-      label.lineLimit = 1
-      const icon = iconRow.addText(activityIcon(day))
-      icon.size = new Size(18, 16)
-      icon.font = Font.systemFont(11)
-      icon.textColor = day.mixte || day.sport ? Color.white() : new Color('#6B7280')
-      icon.minimumScaleFactor = 0.5
-      icon.lineLimit = 1
-      if (index < days.length - 1) {
-        labelRow.addSpacer()
-        iconRow.addSpacer()
-      }
-    })
-  } else {
-    const row = widget.addStack()
-    row.spacing = 1
-    days.forEach((day, index) => {
-      const cell = row.addStack()
-      cell.size = new Size(31, 38)
-      cell.layoutVertically()
-      cell.centerAlignContent()
-      const label = cell.addText(labels[index])
-      label.font = Font.mediumSystemFont(10)
-      label.textColor = new Color('#9CA3AF')
-      const icon = activityIcon(day)
-      const mark = cell.addText(icon)
-      mark.font = Font.systemFont(15)
-      mark.textColor = day.mixte || day.sport ? Color.white() : new Color('#6B7280')
-      mark.minimumScaleFactor = 0.5
-      mark.lineLimit = 1
-    })
-  }
+  const row = widget.addStack()
+  row.spacing = 0
+  days.forEach((day, index) => {
+    const cell = row.addStack()
+    cell.size = new Size(small ? 17 : 31, small ? 28 : 38)
+    cell.layoutVertically()
+    cell.centerAlignContent()
+    const label = cell.addText(labels[index])
+    label.font = Font.mediumSystemFont(small ? 8 : 10)
+    label.textColor = new Color('#9CA3AF')
+    label.minimumScaleFactor = 0.5
+    label.lineLimit = 1
+    const mark = cell.addText(activityIcon(day))
+    mark.font = Font.systemFont(small ? 10 : 15)
+    mark.textColor = day.mixte || day.sport ? Color.white() : new Color('#6B7280')
+    mark.minimumScaleFactor = 0.5
+    mark.lineLimit = 1
+  })
 } catch (error) {
   text('🔥  Défi 60', Font.boldSystemFont(16))
   widget.addSpacer(8)
