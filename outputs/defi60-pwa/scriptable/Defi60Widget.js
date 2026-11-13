@@ -50,18 +50,18 @@ try {
     cell.layoutVertically()
     cell.centerAlignContent()
     const label = cell.addText(labels[index])
-    label.font = Font.mediumSystemFont(small ? 8 : 10)
+    label.font = Font.mediumSystemFont(small ? 10 : 12)
     label.textColor = new Color('#9CA3AF')
     label.minimumScaleFactor = 0.5
     label.lineLimit = 1
     const symbolName = activitySymbol(day)
     if (symbolName) {
       const mark = cell.addImage(SFSymbol.named(symbolName).image)
-      mark.imageSize = new Size(small ? 10 : 15, small ? 10 : 15)
+      mark.imageSize = new Size(small ? 12 : 18, small ? 12 : 18)
       mark.tintColor = new Color('#F9FAFB')
     } else {
       const mark = cell.addText('·')
-      mark.font = Font.systemFont(small ? 10 : 15)
+      mark.font = Font.systemFont(small ? 12 : 18)
       mark.textColor = new Color('#6B7280')
       mark.minimumScaleFactor = 0.5
       mark.lineLimit = 1
