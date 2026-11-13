@@ -1,7 +1,7 @@
 // Défi 60 — widget Scriptable
 // À coller dans une nouvelle script Scriptable, puis à choisir dans le widget.
 const WIDGET_URL = 'https://defi60-widget.yann-negre.workers.dev/v1/48eec4ad78274655fecbf5cac8ad9b2743292e4980de6655'
-const APP_URL = 'https://f-duck.github.io/defi60/?v=ce21d3f'
+const APP_URL = 'https://f-duck.github.io/defi60/?v=3d03b22'
 
 const widget = new ListWidget()
 widget.backgroundColor = new Color('#111827')
